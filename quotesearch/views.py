@@ -1,10 +1,9 @@
 import re
-from django.shortcuts import get_object_or_404, render, render_to_response
+from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.views import generic
 from django.utils import timezone
-from django.core.context_processors import csrf
 from django.db.models import Q
 from django.template import RequestContext
 
@@ -43,22 +42,30 @@ class DetailView(generic.DetailView):
 
 
 def search(request):
-    #request.POST.get("svalue", "")
+    ''' Searches the quote database '''
     print("receive request for search view")
-    print("RECEIVE REQUEST pre 404 " + request.POST.get("svalue", ""))
+    print("RECEIVE REQUEST pre 404 " + request.POST['selection'])
     
     svalue = request.POST.get("svalue", "")
+    selection = request.POST['selection']
     found_entries = None
     if ('svalue' in request.POST) and request.POST['svalue'].strip():
         query_string = request.POST['svalue']
+        
+        if (selection == "sauthor"):
+            entry_query = get_query(query_string, ['author', ])
+        elif (selection == "squote"):
+            entry_query = get_query(query_string, ['quote', ])
+        elif (selection == "stag"):
+            entry_query = get_query(query_string, ['tag', ])       
+        else:    
+            entry_query = get_query(query_string, ['author', 'quote', 'tag', 'id', ])
 
-        entry_query = get_query(query_string, ['author', 'quote', 'tag', 'id', ])
+        found_entries = Quote.objects.filter(entry_query).order_by('?')[:int(request.POST['snum'])]
 
-        found_entries = Quote.objects.filter(entry_query).order_by('-id')
-
-    return render_to_response('quotesearch/results.html',
-                          { 'query_string': query_string, 'found_entries': found_entries },
-                          context_instance=RequestContext(request))   
+    return render(request, 'quotesearch/results.html',
+                          { 'query_string': query_string, 'found_entries': found_entries })
+                             
 
     #p = get_object_or_404(Quote, pk=request.POST['svalue'])
     #print("Got this: " + p.quote + " " + p.author + " " + p.tag + " " + str(p.id))

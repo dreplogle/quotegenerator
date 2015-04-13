@@ -8,7 +8,7 @@
 {% if query_string %}
 	<p>Search results for <b>{{ query_string }}</b>:</p>
 	{% for entry in found_entries %}
-		<p>{{ entry.quote }} -- {{ entry.author }}</a></p>
+		<p>{{ entry.quote }} -- {{ entry.author }}	</p>
 	{% endfor %}
 {% endif %}
 <a href="{% url 'quotesearch:index' %}">More quotes?</a>
