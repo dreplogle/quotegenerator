@@ -1,7 +1,14 @@
-<h1>Quote</h1>
+<h1>Quote Results</h1>
+{% comment %}
 <ul>
     <p>{{ quote.quote }} -- {{ quote.author }}</p>
 	<p>Tag - {{ quote.tag }} </p>
 </ul>
-
+{% endcomment %}
+{% if query_string %}
+	<p>Search results for <b>{{ query_string }}</b>:</p>
+	{% for entry in found_entries %}
+		<p>{{ entry.quote }} -- {{ entry.author }}</a></p>
+	{% endfor %}
+{% endif %}
 <a href="{% url 'quotesearch:index' %}">More quotes?</a>
