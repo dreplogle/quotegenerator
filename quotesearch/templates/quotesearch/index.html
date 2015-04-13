@@ -1,0 +1,28 @@
+{% load staticfiles %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'quotesearch/style.css' %}" />
+{% comment %}
+{% if first_quotes %}
+    <ul>
+    {% for quote in first_quotes %}
+        <p>{{ quote.quote }}  - {{ quote.author }}</a></p>
+    {% endfor %}
+    </ul>
+	<form action="{% url 'quotesearch:search' %}" method="post">
+		{% csrf_token %}
+		<input type="text" name="svalue" value="{{ svalue }}">
+		<input type="submit" value="THE DO NOTHING BUTTON">
+	</form>
+{% else %}
+    <p>No polls are available.</p>
+{% endif %}
+{% endcomment %}
+
+<h1>Quote generator</h1>
+
+	<form action="{% url 'quotesearch:search' %}" method="post">
+		{% csrf_token %}
+		<input type="text" name="svalue" value="{{ svalue }}">
+		<input type="submit" value="Search for quotes">
+	</form>
+

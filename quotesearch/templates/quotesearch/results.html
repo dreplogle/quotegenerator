@@ -1,0 +1,7 @@
+<h1>Quote</h1>
+<ul>
+    <p>{{ quote.quote }} -- {{ quote.author }}</p>
+	<p>Tag - {{ quote.tag }} </p>
+</ul>
+
+<a href="{% url 'quotesearch:index' %}">More quotes?</a>
