@@ -54,8 +54,6 @@ def search(request):
         snum = int(request.POST['snum']) 
     except ValueError:
         snum = 1
-    else:
-        snum = 1
 
     found_entries = None
     if ('svalue' in request.POST) and request.POST['svalue'].strip():
