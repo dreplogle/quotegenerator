@@ -44,10 +44,19 @@ class DetailView(generic.DetailView):
 def search(request):
     ''' Searches the quote database '''
     print("receive request for search view")
-    print("RECEIVE REQUEST pre 404 " + request.POST['selection'])
+    print("RECEIVE REQUEST pre 404 " + request.POST.get('selection', ' '))
     
-    svalue = request.POST.get("svalue", "")
-    selection = request.POST['selection']
+    svalue = request.POST.get("svalue", "Tom Brady")
+    
+    selection = request.POST.get('selection', ' ')
+
+    try: 
+        snum = int(request.POST['snum']) 
+    except ValueError:
+        snum = 1
+    else:
+        snum = 1
+
     found_entries = None
     if ('svalue' in request.POST) and request.POST['svalue'].strip():
         query_string = request.POST['svalue']
@@ -61,10 +70,15 @@ def search(request):
         else:    
             entry_query = get_query(query_string, ['author', 'quote', 'tag', 'id', ])
 
-        found_entries = Quote.objects.filter(entry_query).order_by('?')[:int(request.POST['snum'])]
+        found_entries = Quote.objects.filter(entry_query).order_by('?')[:snum]
 
-    return render(request, 'quotesearch/results.html',
+        return render(request, 'quotesearch/results.html',
                           { 'query_string': query_string, 'found_entries': found_entries })
+
+    else:
+        return render(request, 'quotesearch/index.html', {
+                'error_message': "Enter a search value",
+                })
                              
 
     #p = get_object_or_404(Quote, pk=request.POST['svalue'])

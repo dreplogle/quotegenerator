@@ -19,7 +19,7 @@
 {% endcomment %}
 
 <h1>Quote generator</h1>
-
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 	<form action="{% url 'quotesearch:search' %}" method="post">
 		{% csrf_token %}
 		<p>Search by:</p>
@@ -30,7 +30,7 @@
 		<input type="radio" name="selection" id="3" value="squote" />
 		<label for="3">quote</label><br />
 		<input type="text" name="svalue" value="{{ svalue }}">
-		<label for="svalue">Search value</label><br />
+		<label for="svalue">Search for (required)</label><br />
 		<input type="text" name="snum" value="{{ snum }}" size="5" maxlength="5">
 		<label for="snum">Up to how many quotes</label><br />
 		<input type="submit" value="Search for quotes">
