@@ -1,2 +1,5 @@
-Django==1.8.0
-python==3.4.3
+chardet==2.3.0
+Django==1.8
+django-csvimport==2.4
+psycopg2==2.6
+simplejson==3.6.5
