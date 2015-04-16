@@ -21,16 +21,13 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
-    
-DATABASES['default'] = dj_database_url.config()
 
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
 
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
-# Enable Connection Pooling
-DATABASES['default']['ENGINE'] = 'django_postgrespool'
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
@@ -102,6 +99,10 @@ DATABASES = {
     }
 }
 
+    
+DATABASES['default'] = dj_database_url.config()
+# Enable Connection Pooling
+DATABASES['default']['ENGINE'] = 'django_postgrespool'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
